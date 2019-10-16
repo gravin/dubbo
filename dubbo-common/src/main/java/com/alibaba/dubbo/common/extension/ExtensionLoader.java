@@ -540,7 +540,7 @@ public class ExtensionLoader<T> {
         // 从缓存中，获得自适应拓展对象
         Object instance = cachedAdaptiveInstance.get();
         if (instance == null) {
-            // 若之前未创建报错，
+            // 若之前创建没有报错， --- 每次创建缓存报错信息，以免在创建报错时，重复尝试。
             if (createAdaptiveInstanceError == null) {
                 synchronized (cachedAdaptiveInstance) {
                     instance = cachedAdaptiveInstance.get();
