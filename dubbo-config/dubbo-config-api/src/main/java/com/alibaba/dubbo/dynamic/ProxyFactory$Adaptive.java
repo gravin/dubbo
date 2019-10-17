@@ -1,4 +1,4 @@
-package com.alibaba.dubbo.rpc;
+package com.alibaba.dubbo.dynamic;
 
 import com.alibaba.dubbo.common.extension.ExtensionLoader;
 
