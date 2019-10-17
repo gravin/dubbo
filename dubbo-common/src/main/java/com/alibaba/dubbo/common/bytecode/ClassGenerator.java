@@ -30,6 +30,10 @@ import javassist.CtNewMethod;
 import javassist.LoaderClassPath;
 import javassist.NotFoundException;
 
+import java.io.DataOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -292,6 +296,20 @@ public final class ClassGenerator {
                     }
                 }
             }
+
+            /****
+             * 为方便debug导出class文件，方便对比
+             */
+            try {
+                DataOutputStream out = new DataOutputStream(new FileOutputStream("E://"+mCtc.getName()+".class"));
+                mCtc.getClassFile().write(out);
+                out.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
             return mCtc.toClass(loader, pd);
         } catch (RuntimeException e) {
             throw e;
