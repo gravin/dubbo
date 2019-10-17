@@ -71,6 +71,11 @@ public class ServiceConfig<T> extends AbstractServiceConfig {
 
     private static final long serialVersionUID = 3033787999037024738L;
 
+    static {
+        ExtensionLoader.getExtensionLoader(Protocol.class).getAdaptiveExtension();
+        ExtensionLoader.getExtensionLoader(ProxyFactory.class).getAdaptiveExtension();
+    }
+
 //    private static final Protocol protocol = ExtensionLoader.getExtensionLoader(Protocol.class).getAdaptiveExtension();
 
     private static final Protocol protocol = new Protocol$Adaptive();
