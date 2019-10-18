@@ -907,6 +907,20 @@ public class ExtensionLoader<T> {
      * @return 类
      */
     private Class<?> createAdaptiveExtensionClass() {
+        if (StringUtils.isEquals(type.getName(), "com.alibaba.dubbo.rpc.Protocol")) {
+            try {
+                return Class.forName("com.alibaba.dubbo.dynamic.Protocol$Adaptive");
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        if (StringUtils.isEquals(type.getName(), "com.alibaba.dubbo.rpc.ProxyFactory")) {
+            try {
+                return Class.forName("com.alibaba.dubbo.dynamic.ProxyFactory$Adaptive");
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
         //自动生成自适应扩展的代码实现的字符串
         String code = createAdaptiveExtensionClassCode();
         //编译代码,并返回该类
