@@ -921,6 +921,13 @@ public class ExtensionLoader<T> {
                 e.printStackTrace();
             }
         }
+        if (StringUtils.isEquals(type.getName(), "com.alibaba.dubbo.rpc.Transporter")) {
+            try {
+                return Class.forName("com.alibaba.dubbo.dynamic.Transporter$Adaptive");
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
         //自动生成自适应扩展的代码实现的字符串
         String code = createAdaptiveExtensionClassCode();
         //编译代码,并返回该类
