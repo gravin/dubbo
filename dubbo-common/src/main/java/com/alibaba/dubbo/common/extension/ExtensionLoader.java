@@ -921,9 +921,23 @@ public class ExtensionLoader<T> {
                 e.printStackTrace();
             }
         }
-        if (StringUtils.isEquals(type.getName(), "com.alibaba.dubbo.rpc.Transporter")) {
+        if (StringUtils.isEquals(type.getName(), "com.alibaba.dubbo.remoting.Transporter")) {
             try {
                 return Class.forName("com.alibaba.dubbo.dynamic.Transporter$Adaptive");
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        if (StringUtils.isEquals(type.getName(), "com.alibaba.dubbo.remoting.Dispatcher")) {
+            try {
+                return Class.forName("com.alibaba.dubbo.dynamic.Dispatcher$Adaptive");
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        if (StringUtils.isEquals(type.getName(), "com.alibaba.dubbo.registry.RegistryFactory")) {
+            try {
+                return Class.forName("com.alibaba.dubbo.dynamic.RegistryFactory$Adaptive");
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
