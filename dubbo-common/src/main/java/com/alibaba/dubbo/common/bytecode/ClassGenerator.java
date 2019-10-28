@@ -38,12 +38,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.security.ProtectionDomain;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -299,9 +294,10 @@ public final class ClassGenerator {
 
             /****
              * 为方便debug导出class文件，方便对比
+             * 由于windows文件名不区分大小写，所以这里还是加上随机串
              */
             try {
-                DataOutputStream out = new DataOutputStream(new FileOutputStream("E://"+mCtc.getName()+".class"));
+                DataOutputStream out = new DataOutputStream(new FileOutputStream("E://fenxi/"+mCtc.getName()+"---"+UUID.randomUUID().toString()+".class"));
                 mCtc.getClassFile().write(out);
                 out.close();
             } catch (FileNotFoundException e) {
