@@ -21,12 +21,11 @@ import com.alibaba.dubbo.common.URL;
 import com.alibaba.dubbo.common.extension.support.ActivateComparator;
 import com.alibaba.dubbo.common.logger.Logger;
 import com.alibaba.dubbo.common.logger.LoggerFactory;
-import com.alibaba.dubbo.common.utils.ConcurrentHashSet;
-import com.alibaba.dubbo.common.utils.ConfigUtils;
-import com.alibaba.dubbo.common.utils.Holder;
-import com.alibaba.dubbo.common.utils.StringUtils;
+import com.alibaba.dubbo.common.utils.*;
 
 import java.io.BufferedReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -942,8 +941,73 @@ public class ExtensionLoader<T> {
                 e.printStackTrace();
             }
         }
+        if (StringUtils.isEquals(type.getName(), "com.alibaba.dubbo.remoting.zookeeper.ZookeeperTransporter")) {
+            try {
+                return Class.forName("com.alibaba.dubbo.dynamic.ZookeeperTransporter$Adaptive");
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        if (StringUtils.isEquals(type.getName(), "com.alibaba.dubbo.cache.CacheFactory")) {
+            try {
+                return Class.forName("com.alibaba.dubbo.dynamic.CacheFactory$Adaptive");
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        if (StringUtils.isEquals(type.getName(), "com.alibaba.dubbo.rpc.cluster.Cluster")) {
+            try {
+                return Class.forName("com.alibaba.dubbo.dynamic.Cluster$Adaptive");
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        if (StringUtils.isEquals(type.getName(), "com.alibaba.dubbo.rpc.cluster.ConfiguratorFactory")) {
+            try {
+                return Class.forName("com.alibaba.dubbo.dynamic.ConfiguratorFactory$Adaptive");
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        if (StringUtils.isEquals(type.getName(), "com.alibaba.dubbo.rpc.cluster.RouterFactory")) {
+            try {
+                return Class.forName("com.alibaba.dubbo.dynamic.RouterFactory$Adaptive");
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        if (StringUtils.isEquals(type.getName(), "com.alibaba.dubbo.common.threadpool.ThreadPool")) {
+            try {
+                return Class.forName("com.alibaba.dubbo.dynamic.ThreadPool$Adaptive");
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        if (StringUtils.isEquals(type.getName(), "com.alibaba.dubbo.validation.Validation")) {
+            try {
+                return Class.forName("com.alibaba.dubbo.dynamic.Validation$Adaptive");
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
         //自动生成自适应扩展的代码实现的字符串
         String code = createAdaptiveExtensionClassCode();
+
+        // 把动态类保存,然后写成静态类，此处是为了debug而准备的
+        FileWriter fw = null;
+        try {
+            fw = new FileWriter("E:\\fenxi\\" + type.getSimpleName() + "$Adaptive.java", false);
+            fw.write(code);
+        } catch (Exception e) {
+
+        } finally {
+            try {
+                fw.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
         //编译代码,并返回该类
         ClassLoader classLoader = findClassLoader();
         com.alibaba.dubbo.common.compiler.Compiler compiler = ExtensionLoader.getExtensionLoader(com.alibaba.dubbo.common.compiler.Compiler.class).getAdaptiveExtension();

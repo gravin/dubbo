@@ -297,7 +297,11 @@ public final class ClassGenerator {
              * 由于windows文件名不区分大小写，所以这里还是加上随机串
              */
             try {
-                DataOutputStream out = new DataOutputStream(new FileOutputStream("E://fenxi/"+mCtc.getName()+"---"+UUID.randomUUID().toString()+".class"));
+                StringBuilder captialDifferentiator = new StringBuilder();
+                for (int i = 0; i < mCtc.getSimpleName().length(); i++) {
+                    captialDifferentiator.append(Character.isUpperCase(mCtc.getSimpleName().charAt(i)) ? '1' : '0');
+                }
+                DataOutputStream out = new DataOutputStream(new FileOutputStream("E://fenxi/"+mCtc.getSimpleName()+"-"+captialDifferentiator.toString()+".class"));
                 mCtc.getClassFile().write(out);
                 out.close();
             } catch (FileNotFoundException e) {
